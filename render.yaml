@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: login_project
+    env: python
+    buildCommand: |
+      pip install -r requirements.txt
+      python manage.py migrate
+      python manage.py collectstatic --noinput
+    startCommand: gunicorn login_project.wsgi
+    envVars:
+      - key: DJANGO_SECRET_KEY
+        value: your-very-secret-key
+      - key: DATABASE_URL
+        value: postgres://your_postgres_url_from_render_or_elephantsql
